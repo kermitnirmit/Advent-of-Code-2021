@@ -13,5 +13,3 @@ for d, m in f:
         prob1y -= m
 print(x * prob1y)
 print(x * y)
-
-
