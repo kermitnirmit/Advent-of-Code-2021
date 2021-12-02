@@ -1,20 +1,16 @@
-f = [x for x in open("input.txt").read().strip().split("\n")]
-x = 0
-prob1y = 0
-y = 0
-aim = 0
-for a in f:
-    dir, dist = a.split(" ")
-    dist = int(dist)
-    if dir == "forward":
-        x += dist
-        y += dist * aim
-    if dir == "down":
-        aim += dist
-        prob1y += dist
-    if dir == "up":
-        aim -= dist
-        prob1y -= dist
+f = [x.split(" ") for x in open("input.txt").read().strip().split("\n")]
+x = prob1y = y = aim = 0
+for d, m in f:
+    m = int(m)
+    if d[0] == "f":
+        x += m
+        y += m * aim
+    elif d[0] == "d":
+        aim += m
+        prob1y += m
+    else:
+        aim -= m
+        prob1y -= m
 print(x * prob1y)
 print(x * y)
 
