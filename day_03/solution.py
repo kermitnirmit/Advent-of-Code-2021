@@ -1,5 +1,4 @@
-f = [[int(y) for y in list(x)] for x in open("input.txt").read().strip().split("\n")]
-filteredListMC = filteredListLC = f
+filteredListMC = filteredListLC = f = [[int(y) for y in list(x)] for x in open("input.txt").read().strip().split("\n")]
 l = r = final_p2LC = final_p2MC = 0
 
 for i in range(len(f[0])):
