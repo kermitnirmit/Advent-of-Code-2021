@@ -59,5 +59,5 @@ for entry in firstLine:
         board.markVal(entry)
         if board.checkBingo():
             winnersFound += 1
-            if winnersFound == 1 or winnersFound == 100:
+            if winnersFound in [1, 100]:
                 print(winnersFound, board.findUncheckedAndSum() * entry)
