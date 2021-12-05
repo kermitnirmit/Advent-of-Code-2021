@@ -1,10 +1,11 @@
 import numpy as np
+
 f = [x.split(" -> ") for x in open("input.txt").read().strip().split("\n")]
 f = [(list(map(int, left.split(","))), list(map(int, right.split(",")))) for left, right in f]
 m = np.max(f)
 
 
-def fill_lines(diagonals_ok = False):
+def fill_lines(diagonals_ok=False):
     arr = np.zeros((m, m))
     for (l_x, l_y), (r_x, r_y) in f:
         if l_x == r_x or r_y == l_y:
@@ -24,5 +25,3 @@ def fill_lines(diagonals_ok = False):
 
 fill_lines(False)
 fill_lines(True)
-
-
