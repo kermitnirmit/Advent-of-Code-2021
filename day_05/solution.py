@@ -2,7 +2,6 @@ import numpy as np
 f = [x.split(" -> ") for x in open("input.txt").read().strip().split("\n")]
 f = [(list(map(int, left.split(","))), list(map(int, right.split(",")))) for left, right in f]
 m = np.max(f)
-arr = np.zeros((m, m))
 
 
 def fill_lines(diagonals_ok = False):
@@ -20,12 +19,7 @@ def fill_lines(diagonals_ok = False):
                 n_y += d_y
                 n_x += d_x
             arr[n_y, n_x] += 1
-    c = 0
-    for r in arr:
-        for col in r:
-            if col > 1:
-                c += 1
-    print(c)
+    print((arr > 1).sum())
 
 
 fill_lines(False)
