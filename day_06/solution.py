@@ -17,6 +17,21 @@ def solve(end=80):
 print("part 1:", solve(80))
 print("part 2:", solve(256))
 
+
+def solve_2(end=80):
+    q = [0] * 9
+    c = Counter(f)
+    for k,v in c.items():
+        q[k] = v
+    for i in range(end):
+        zeros = q.pop(0)
+        q[6] += zeros
+        q.append(zeros)
+    return sum(q)
+
+print("part 1:", solve_2(80))
+print("part 2:", solve_2(256))
+
 # For Part 1 I simulated the array because it was faster to type.
 #
 # f = np.array(f)
