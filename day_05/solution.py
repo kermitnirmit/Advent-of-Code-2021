@@ -1,13 +1,13 @@
 import numpy as np
+import parse
 
-f = [x.split(" -> ") for x in open("input.txt").read().strip().split("\n")]
-f = [(list(map(int, left.split(","))), list(map(int, right.split(",")))) for left, right in f]
-m = np.max(f)
+f = open("input.txt").read().strip().split("\n")
 
 
 def fill_lines(diagonals_ok=False):
-    arr = np.zeros((m, m))
-    for (l_x, l_y), (r_x, r_y) in f:
+    arr = np.zeros((1000, 1000))
+    for line in f:
+        l_x, l_y, r_x, r_y = tuple(parse.parse('{:d},{:d} -> {:d},{:d}', line).fixed)
         if l_x == r_x or r_y == l_y:
             arr[min(l_y, r_y): max(l_y, r_y) + 1, min(l_x, r_x):max(l_x, r_x) + 1] += 1
         if abs(l_x - r_x) == abs(l_y - r_y) and diagonals_ok:
