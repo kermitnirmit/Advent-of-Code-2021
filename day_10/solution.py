@@ -44,6 +44,5 @@ for i, line in enumerate(f):
             rScore += part_2_score[open_to_close[blob]]
         p2_scores.append(rScore)
 
-
 print(sum(a))
 print(statistics.median(p2_scores))
