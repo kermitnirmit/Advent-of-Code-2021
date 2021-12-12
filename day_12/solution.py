@@ -1,12 +1,10 @@
 from collections import defaultdict
 
 f = [x for x in open("input.txt").read().strip().split("\n")]
-vertexes = []
 
 class Graph:
 
-    def __init__(self, V):
-        self.V = V
+    def __init__(self):
         self.adj = defaultdict(list)
 
     def addEdge(self, u, v):
@@ -29,12 +27,7 @@ class Graph:
         return c
 
 
-for line in f:
-    left, right = line.split("-")
-    vertexes.append(left)
-    vertexes.append(right)
-
-g = Graph(vertexes)
+g = Graph()
 for line in f:
     l, r = line.split("-")
     g.addEdge(l,r)
