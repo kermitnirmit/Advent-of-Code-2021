@@ -60,9 +60,9 @@ for i in range(len(a)):
 for i, f in enumerate(folds):
     axis, idx = f
     if axis == "x":
-        points = set((x, y) if x < idx else (idx + idx - x, y) for x,y in points)
+        points = set((x, y) if x < idx else (idx - abs(idx - x), y) for x,y in points)
     else:
-        points = set((x, y) if y < idx else (x, idx + idx - y) for x, y in points)
+        points = set((x, y) if y < idx else (x, idx - abs(idx - y)) for x, y in points)
     if i == 0:
         print(len(points))
 
