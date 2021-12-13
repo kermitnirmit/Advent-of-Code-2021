@@ -37,13 +37,7 @@ def fold_it(a, d):
 for x,y in points:
     a[y][x] = 1
 for i, (q, d) in enumerate(folds):
-    d = int(d)
-    if q == "x":
-        a = a.T
-        a = fold_it(a, d)
-        a = a.T
-    else:
-        a = fold_it(a, d)
+    a = fold_it(a, d) if q != "x" else fold_it(a.T, d).T
     if i == 0:
         print(int(a.sum()))
 
@@ -51,7 +45,7 @@ for i in range(len(a)):
     builder = ""
     for j in range(len(a[i])):
         if a[i][j] == 1:
-            builder += "#"
+            builder += "█"
         else:
             builder += " "
     print(builder)
@@ -74,7 +68,7 @@ for i in range(max_x + 1):
     builder = ""
     for j in range(max_y + 1):
         if (j,i) in still_there:
-            builder += "#"
+            builder += "█"
         else:
             builder += " "
     print(builder)
