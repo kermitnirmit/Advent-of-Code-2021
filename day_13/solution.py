@@ -18,7 +18,6 @@ max_y = max(x[1] for x in points) + 1
 f = []
 for fold in folds:
     axis, idx = fold[11:].split("=")
-    print(fold)
     f.append((axis, int(idx)))
 folds = f
 
@@ -70,8 +69,6 @@ for i, f in enumerate(folds):
 still_there = list(points)
 max_x = max(x[1] for x in still_there)
 max_y = max(x[0] for x in still_there)
-print(still_there)
-print(max_x, max_y)
 
 for i in range(max_x + 1):
     builder = ""
