@@ -26,8 +26,3 @@ for i in range(40):
             q[k[0]] += v # k[0] is the first letter in the pair, count how many times that character appeared
         q[start[-1]] += 1 # Need to add the last character because it's never the first character in a pair.
         print(max(q.values()) - min(q.values())) # most common - least common.
-
-
-
-
-
