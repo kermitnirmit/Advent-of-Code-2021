@@ -4,7 +4,8 @@ from collections import defaultdict
 import parse
 import numpy as np
 
-points, folds = [x for x in open("input.txt").read().strip().split("\n\n")]
+# points, folds = [x for x in open("input.txt").read().strip().split("\n\n")]
+points, folds = [x for x in open("secret_message.txt").read().strip().split("\n\n")]
 
 points = [x for x in points.splitlines()]
 p = []
@@ -23,32 +24,32 @@ folds = f
 
 
 
-a = np.zeros((max_y, max_x))
-
-def fold_it(a, d):
-    arr = a[d:]
-    arr = np.flip(arr, axis=0)
-    for i in range(len(arr)):
-        for j in range(len(arr[0])):
-            a[i][j] = max(arr[i][j], a[i][j])
-    return a[:d]
-
-
-for x,y in points:
-    a[y][x] = 1
-for i, (q, d) in enumerate(folds):
-    a = fold_it(a, d) if q != "x" else fold_it(a.T, d).T
-    if i == 0:
-        print(int(a.sum()))
-
-for i in range(len(a)):
-    builder = ""
-    for j in range(len(a[i])):
-        if a[i][j] == 1:
-            builder += "█"
-        else:
-            builder += " "
-    print(builder)
+# a = np.zeros((max_y, max_x))
+#
+# def fold_it(a, d):
+#     arr = a[d:]
+#     arr = np.flip(arr, axis=0)
+#     for i in range(len(arr)):
+#         for j in range(len(arr[0])):
+#             a[i][j] = max(arr[i][j], a[i][j])
+#     return a[:d]
+#
+#
+# for x,y in points:
+#     a[y][x] = 1
+# for i, (q, d) in enumerate(folds):
+#     a = fold_it(a, d) if q != "x" else fold_it(a.T, d).T
+#     if i == 0:
+#         print(int(a.sum()))
+#
+# for i in range(len(a)):
+#     builder = ""
+#     for j in range(len(a[i])):
+#         if a[i][j] == 1:
+#             builder += "█"
+#         else:
+#             builder += " "
+#     print(builder)
 
 
 for i, f in enumerate(folds):
