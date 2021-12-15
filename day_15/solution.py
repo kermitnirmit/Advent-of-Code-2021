@@ -19,13 +19,10 @@ def solve(targetx, targety):
         if x == targetx and y == targety:
             return d
         for dx, dy in dirs:
-            nx = dx + x
-            ny = dy + y
+            nx, ny = dx + x, dy + y
             if 0 <= nx <= targetx and 0 <= ny <= targety:
-                i_x = nx // len(board)
-                i_xoffset = nx % len(board)
-                i_y = ny // len(board[0])
-                i_yoffset = ny % len(board[0])
+                i_x, i_xoffset = divmod(nx, len(board))
+                i_y, i_yoffset = divmod(ny, len(board[0]))
                 nd = (board[i_xoffset][i_yoffset] + i_x + i_y)
                 nd = nd % 10 + nd // 10 + d
                 if (nx, ny) not in seen:
