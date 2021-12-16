@@ -66,24 +66,22 @@ print("p1", answer)
 """
 def evaluate_packet(p):
     # why the fuck are there so many rules
-    answer = 0
     if p[1] == 0:
-        answer += sum(evaluate_packet(x) for x in p[3])
+        return sum(evaluate_packet(x) for x in p[3])
     if p[1] == 1:
-        answer += reduce(lambda a, b: a * b, [evaluate_packet(x) for x in p[3]], 1)
+        return reduce(lambda a, b: a * b, [evaluate_packet(x) for x in p[3]], 1)
     if p[1] == 2:
-        answer += min(evaluate_packet(x) for x in p[3])
-    if p[1] == 4:
-        answer += p[2]
+        return min(evaluate_packet(x) for x in p[3])
     if p[1] == 3:
-        answer += max(evaluate_packet(x) for x in p[3])
+        return max(evaluate_packet(x) for x in p[3])
+    if p[1] == 4:
+        return p[2]
     if p[1] == 5:
-        answer += evaluate_packet(p[3][0]) > evaluate_packet(p[3][1])
+        return evaluate_packet(p[3][0]) > evaluate_packet(p[3][1])
     if p[1] == 6:
-        answer += evaluate_packet(p[3][1]) > evaluate_packet(p[3][0])
+        return evaluate_packet(p[3][1]) > evaluate_packet(p[3][0])
     if p[1] == 7:
-        answer += evaluate_packet(p[3][0]) == evaluate_packet(p[3][1])
-    return answer
+        return evaluate_packet(p[3][0]) == evaluate_packet(p[3][1])
 
 
 answer = 0
