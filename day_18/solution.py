@@ -171,4 +171,3 @@ for i in range(len(f)):
             tot = w + r
             q = max(tot.magnitude(), q)
 print(q)
-
