@@ -1,10 +1,5 @@
-from collections import Counter, defaultdict
-from itertools import combinations, combinations_with_replacement, permutations
-from heapq import heappush, heappop
 
 f = open("input.txt").read().strip().split("\n")
-# f = open("test.txt").read().strip().split("\n")
-# f = open("othertest.txt").read().strip().split("\n")
 
 vs = []
 rights = []
@@ -18,8 +13,6 @@ for i, line in enumerate(f):
             vs.append((i, j))
         if line[j] == ">":
             rights.append((i, j))
-print(rights)
-print(vs)
 
 turn = 0
 while True:
