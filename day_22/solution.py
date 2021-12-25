@@ -1,79 +1,71 @@
 import numpy as np
 from parse import parse
-from collections import defaultdict
-from itertools import product
-from tqdm import tqdm, trange
-a = np.zeros((101,101,101))
 
-# f = open("input.txt").read().strip().split("\n")
-f = open("test.txt").read().strip().split("\n")
+a = np.zeros((101, 101, 101))
+
+f = open("input.txt").read().strip().split("\n")
+# f = open("test.txt").read().strip().split("\n")
 
 steps = []
-maxx = 0
-maxy = 0
-maxz = 0
-
-minx = 0
-miny = 0
-minz = 0
-
+stepsandbounds = []
 for line in f:
     toggle, xmin, xmax, ymin, ymax, zmin, zmax = parse("{} x={:d}..{:d},y={:d}..{:d},z={:d}..{:d}", line).fixed
     toggle = 1 if toggle == "on" else 0
-    # maxx = max(maxx, xmax)
-    # minx = min(minx, xmin)
-    # maxy = max(maxy, ymax)
-    # miny = min(miny, ymin)
-    # maxz = max(maxz, zmax)
-    # minz = min(minz, zmin)
     steps.append((toggle, xmin, xmax, ymin, ymax, zmin, zmax))
+    bounds = ((xmin, xmax + 1), (ymin, ymax + 1), (zmin, zmax + 1))
+    stepsandbounds.append((toggle, bounds))
 
 for toggle, xmin, xmax, ymin, ymax, zmin, zmax in steps:
     if xmax < -50 or xmin > 50 or ymax < -50 or ymin > 50 or zmax < -50 or zmin > 50:
         pass
     else:
-        a[xmin+50:xmax+50+1, ymin+50:ymax+50+1, zmin+50:zmax+50+1] = toggle
-    # print(a.sum())
-    # input("continue")
+        a[xmin + 50:xmax + 50 + 1, ymin + 50:ymax + 50 + 1, zmin + 50:zmax + 50 + 1] = toggle
 print("part 1", int(a.sum()))
 
-xranges = np.zeros(maxx + 1 + (-1 * minx))
-yranges = np.zeros(maxy + 1 + (-1 * miny))
-zranges = np.zeros(maxz + 1 + (-1 * minz))
+# p2
+# shamelessly stolen from adi
 
-# print(minx, maxx)
-print(len(xranges))
+def intersect(a, b):
+    if a[0] > b[1] or b[0] > a[1]:
+        return None
+    nums = sorted([a[0], a[1], b[0], b[1]])
+    return [nums[1], nums[2]]
 
-vol = 0
-xdict = defaultdict(set)
-for toggle, xmin, xmax, ymin, ymax, zmin, zmax in steps[:2]:
-    vol = 0
-    for x in range(xmin, xmax + 1):
-        if toggle:
-            xdict[x] = xdict[x] | set(product(range(ymin, ymax + 1), range(zmin, zmax + 1)))
-    for v in xdict.values():
-        vol += len(v)
-    print(vol)
-print(xdict)
+def intersect3d(a,b):
+    ret = []
+    for q,w in zip(a,b):
+        res = intersect(q,w)
+        if res is None:  # if there's any 1d part that doesn't overlap, the whole cube is separate
+            return None
+        ret.append(res)
+    return ret
 
+def volume(cube):
+    bounds = cube[0]
+    v = 1
+    for low, hi in bounds:
+        v *= (hi - low)
+    for c in cube[1]:
+        v -= volume(c)
+    return v
 
-print(xranges)
-print(yranges)
-print(zranges)
-vol = 0
+def make_hole(c, b):
+    doesintersect = intersect3d(c[0], b)
+    if doesintersect:
+        for i, sub_cube in enumerate(c[1]):
+            c[1][i] = make_hole(sub_cube, b)
+        c[1].append((doesintersect, []))
+    return c
 
-print(xranges.sum() * yranges.sum() * zranges.sum())
+cubes = []
+for toggle, bounds in stepsandbounds:
+    for i, cube in enumerate(cubes):
+        cubes[i] = make_hole(cube, bounds)
+        # basically prevents double counting -
+        # if a cube partially overlaps with another cube with ON,
+        # this creates a negative space so the double count becomes one. 1+1 - 1 = 1
+    if toggle:
+        cubes.append((bounds, []))  # this is an on inst so have to add this area
 
-
-
-# for toggle, xmin, xmax, ymin, ymax, zmin, zmax in tqdm(steps):
-#     for i in trange(xmin, xmax + 1):
-#         for j in range(ymin, ymax + 1):
-#             for k in range(zmin, zmax + 1):
-#                 if toggle == 1:
-#                     ons.add((i, j, k))
-#                 if toggle == 0:
-#                     if (i,j,k) in ons:
-#                         ons.remove((i,j,k))
-#
-# print(len(ons))
+# rvol = 0
+print("part 2", sum(volume(c) for c in cubes))
